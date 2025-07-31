@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Application
+Name=Ordered Autostart
+Exec=/usr/bin/ordered-autostart
+NoDisplay=true

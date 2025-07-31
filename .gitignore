@@ -1,0 +1,8 @@
+*.o
+*.h
+*.cpp
+Makefile
+ordered-autostart
+.qmake.stash
+!src/*.h
+!src/*.cpp
