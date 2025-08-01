@@ -53,6 +53,7 @@ int main(int argc, char *argv[]) {
 
   settings.beginGroup("config");
   int startupDelay = settings.value("delay", 0).toInt();
+  int launchDelay  = settings.value("launch", 50).toInt();
   settings.endGroup();
 
   if(startupDelay) {
@@ -62,11 +63,11 @@ int main(int argc, char *argv[]) {
   settings.beginGroup("autostart");
   QStringList keys = settings.childKeys();
   for (const QString &key : keys) {
-    int enabled = settings.value(key,0).toInt();
-    if (enabled) {
-      QString cmd = "gio launch '/usr/share/applications/" + key + ".desktop' >/dev/null 2>/dev/null";
-      QProcess::startDetached("sh", QStringList() << "-c" << cmd);
-    }
+    QString app = settings.value(key).toString().trimmed();
+    if (app.isEmpty()) continue;
+    QString cmd = "gio launch '/usr/share/applications/" + app + ".desktop' >/dev/null 2>/dev/null";
+    QProcess::startDetached("sh", QStringList() << "-c" << cmd);
+    QThread::msleep(launchDelay);
   }
   settings.endGroup();
 
